@@ -219,13 +219,13 @@ export default {
 		${ constr('AVLTreeNode') }(${ cl('T') } ${ id('value') })
 		{
 			${ cl('this') }.${ id('value') } ${ op('=') } ${ id('value') };
-			${ id('height') } ${ op('=') } ${ num('0') };
+			${ id('height') } ${ op('=') } ${ num('1') };
 			${ id('left') } ${ op('=') } ${ num('null') };
 			${ id('right') } ${ op('=') } ${ num('null') };
 		}
 	}
 
-	${ keyw('class') } ${ cl('AVLTree') }${ op('<') }${ cl('T') }${ op('>') }
+	${ keyw('class') } ${ cl('AVLTree') }${ op('<') }${ cl('T') } ${ keyw('extends') } ${ cl('Comparable') }${ op('<') }${ cl('T') }${ op('>') }${ op('>') }
 	{
 		${ keyw('public') } ${ cl('AVLTreeNode') }${ op('<') }${ cl('T') }${ op('>') } ${ id('root') };
 		${ keyw('int') } ${ id('size') };
@@ -315,7 +315,7 @@ export default {
 
 		${ comm('// Update the heights.') }
 
-		${ id('x') }.${ id('height') } ${ op('=') } ${ num('1') } ${ op('+') } ${ cl('Math') }.${ func('max') }(${ cl('AVLTree') }.${ func('avlHeight') }(${ id('T1') }), ${ func('avlHeight') }(${ id('T2') }));
+		${ id('x') }.${ id('height') } ${ op('=') } ${ num('1') } ${ op('+') } ${ cl('Math') }.${ func('max') }(${ func('avlHeight') }(${ id('T1') }), ${ func('avlHeight') }(${ id('T2') }));
 		${ id('y') }.${ id('height') } ${ op('=') } ${ num('1') } ${ op('+') } ${ cl('Math') }.${ func('max') }(${ func('avlHeight') }(${ id('T3') }), ${ func('avlHeight') }(${ id('T4') }));
 		${ param('z') }.${ id('height') } ${ op('=') } ${ num('1') } ${ op('+') } ${ cl('Math') }.${ func('max') }(${ id('x') }.${ id('height') }, ${ id('y') }.${ id('height') });
 
@@ -550,11 +550,11 @@ export default {
 		${ comm('// Traverse the tree according to how the new value compares') }
 		${ comm('// to the left and right children of the current node.') }
 
-		${ keyw('if') } (${ param('value') } ${ op('<') } ${ param('node') }.${ id('value') })
+		${ keyw('if') } (${ param('value') }.${ func('compareTo') }(${ param('node') }.${ id('value') }) ${ op('<') } ${ num('0') })
 		{
 			${ param('node') }.${ id('left') } ${ op('=') } ${ func('avlInsert') }(${ param('node') }.${ id('left') }, ${ param('value') });
 		}
-		${ keyw('else') } ${ keyw('if') } (${ param('value') } ${ op('>') } ${ param('node') }.${ id('value') })
+		${ keyw('else') } ${ keyw('if') } (${ param('value') }.${ func('compareTo') }(${ param('node') }.${ id('value') }) ${ op('>') } ${ num('0') })
 		{
 			${ param('node') }.${ id('right') } ${ op('=') } ${ func('avlInsert') }(${ param('node') }.${ id('right') }, ${ param('value') });
 		}
@@ -574,7 +574,7 @@ export default {
 		${ comm('// After the recursive downwards step, we will traverse the') }
 		${ comm('// tree upwards again and update the height of the current node.') }
 
-		${ param('node') }.${ id('height') } ${ num('1') } ${ op('+') } ${ op('=') } ${ cl('Math') }.${ func('max') }(${ id('leftHeight') }, ${ id('rightHeight') });
+		${ param('node') }.${ id('height') } ${ op('=') } ${ num('1') } ${ op('+') } ${ cl('Math') }.${ func('max') }(${ id('leftHeight') }, ${ id('rightHeight') });
 
 		${ comm('// We will check if the current node is unbalanced.') }
 		${ comm('// If it is, we will have to find a rotation to fix it.') }
@@ -585,7 +585,7 @@ export default {
 		{
 			${ comm('// The left subtree is too tall.') }
 
-			${ keyw('if') } (${ param('value') } ${ op('<') } ${ param('node') }.${ id('left') }.${ id('value') })
+			${ keyw('if') } (${ param('value') }.${ func('compareTo') }(${ param('node') }.${ id('left') }.${ id('value') }) ${ op('<') } ${ num('0') })
 			{
 				${ comm('// Left-left case.') }
 
@@ -603,7 +603,7 @@ export default {
 		{
 			${ comm('// The right subtree is too tall.') }
 
-			${ keyw('if') } (${ param('value') } ${ op('>') } ${ param('node') }.${ id('right') }.${ id('value') })
+			${ keyw('if') } (${ param('value') }.${ func('compareTo') }(${ param('node') }.${ id('right') }.${ id('value') }) ${ op('>') } ${ num('0') })
 			{
 				${ comm('// Right-right case.') }
 
@@ -616,12 +616,12 @@ export default {
 				${ keyw('return') } ${ func('avlRebalanceRightLeft') }(${ param('node') });
 			}
 		}
+
+		${ comm('// This node is already balanced, so we just return it') }
+		${ comm('// as it currently is.') }
+
+		${ keyw('return') } ${ param('node') };
 	}
-
-	${ comm('// This node is already balanced, so we just return it') }
-	${ comm('// as it currently is.') }
-
-	${ keyw('return') } ${ param('node') };
 	`) }
 
 	<br>
@@ -681,14 +681,14 @@ export default {
 
 	${ createCodeBlockFromStr(`
 	${ keyw('private') } ${ cl('int') }
-	${ func('avlBalance') }(${ cl('AVLNode') } ${ param('node') })
+	${ func('avlBalance') }(${ cl('AVLTreeNode') }${ op('<') }${ cl('T') }${ op('>') } ${ param('node') })
 	{
 		${ keyw('if') } (${ param('node') } ${ op('==') } ${ num('null') })
 		{
 			${ keyw('return') } ${ num('0') };
 		}
 
-		${ keyw('return') } ${ func('avlHeight') }(${ param('node') }.${ id('left') } ${ op('-') } ${ func('avlHeight') }(${ param('node') }.${ id('right') }));
+		${ keyw('return') } ${ func('avlHeight') }(${ param('node') }.${ id('left') }) ${ op('-') } ${ func('avlHeight') }(${ param('node') }.${ id('right') });
 	}
 
 	${ keyw('private') } ${ cl('AVLTreeNode') }${ op('<') }${ cl('T') }${ op('>') }
@@ -706,11 +706,11 @@ export default {
 		${ comm('// Traverse the tree according to how the value to be removed') }
 		${ comm('// compares to the left and right children of the current node.') }
 
-		${ keyw('if') } (${ param('value') } ${ op('<') } ${ param('node') }.${ id('value') })
+		${ keyw('if') } (${ param('value') }.${ func('compareTo') }(${ param('node') }.${ id('value') }) ${ op('<') } ${ num('0') })
 		{
 			${ param('node') }.${ id('left') } ${ op('=') } ${ func('avlRemove') }(${ param('node') }.${ id('left') }, ${ param('value') });
 		}
-		${ keyw('else') } ${ keyw('if') } (${ param('value') } ${ op('>') } ${ param('node') }.${ id('value') })
+		${ keyw('else') } ${ keyw('if') } (${ param('value') }.${ func('compareTo') }(${ param('node') }.${ id('value') }) ${ op('>') } ${ num('0') })
 		{
 			${ param('node') }.${ id('right') } ${ op('=') } ${ func('avlRemove') }(${ param('node') }.${ id('right') }, ${ param('value') });
 		}
@@ -721,7 +721,7 @@ export default {
 			${ comm('// or if it is a leaf.') }
 
 			${ id('size') }${ op('--') };
-			${ param('node') } ${ op('=') } ${ keyw('return') } ${ func('avlDeleteNode') }(${ param('node') });
+			${ param('node') } ${ op('=') } ${ func('avlDeleteNode') }(${ param('node') });
 		}
 
 		${ comm('// Make sure the node exists.') }
@@ -739,7 +739,7 @@ export default {
 		${ comm('// After the recursive downwards step, we will traverse the') }
 		${ comm('// tree upwards again and update the height of the current node.') }
 
-		${ param('node') }.${ id('height') } ${ num('1') } ${ op('+') } ${ op('=') } ${ cl('Math') }.${ func('max') }(${ id('leftHeight') }, ${ id('rightHeight') });
+		${ param('node') }.${ id('height') } ${ op('=') } ${ num('1') } ${ op('+') } ${ cl('Math') }.${ func('max') }(${ id('leftHeight') }, ${ id('rightHeight') });
 
 		${ comm('// We will check if the current node is unbalanced.') }
 		${ comm('// If it is, we will have to find a rotation to fix it.') }
@@ -789,7 +789,7 @@ export default {
 	}
 
 	${ keyw('private') } ${ cl('AVLTreeNode') }${ op('<') }${ cl('T') }${ op('>') }
-	${ func('avlDeleteNode') }(${ param('node') })
+	${ func('avlDeleteNode') }(${ cl('AVLTreeNode') }${ op('<') }${ cl('T') }${ op('>') } ${ param('node') })
 	{
 		${ comm('// Check how many children this node has.') }
 
@@ -865,7 +865,7 @@ export default {
 
 	${ createCodeBlockFromStr(`
 	${ keyw('public') } ${ keyw('boolean') }
-	${ func('avlHas') }${ cl('AVLTreeNode') }${ op('<') }${ cl('T') }${ op('>') } ${ param('node') }, ${ cl('T') } ${ param('value') })
+	${ func('avlHas') }(${ cl('AVLTreeNode') }${ op('<') }${ cl('T') }${ op('>') } ${ param('node') }, ${ cl('T') } ${ param('value') })
 	{
 		${ comm('// If we reach the end of the tree, the value is not in the tree.') }
 
@@ -877,12 +877,12 @@ export default {
 		${ comm('// Traverse the tree according to how the value to be found') }
 		${ comm('// compares to the left and right children of the current node.') }
 
-		${ keyw('if') } (${ param('value') } ${ op('<') } ${ param('node') }.${ id('value') })
+		${ keyw('if') } (${ param('value') }.${ func('compareTo') }(${ param('node') }.${ id('value') }) ${ op('<') } ${ num('0') })
 		{
 			${ keyw('return') } ${ func('avlHas') }(${ param('node') }.${ id('left') }, ${ param('value') });
 		}
 
-		${ keyw('if') } (${ param('value') } ${ op('>') } ${ param('node') }.${ id('value') })
+		${ keyw('if') } (${ param('value') }.${ func('compareTo') }(${ param('node') }.${ id('value') }) ${ op('>') } ${ num('0') })
 		{
 			${ keyw('return') } ${ func('avlHas') }(${ param('node') }.${ id('right') }, ${ param('value') });
 		}
@@ -929,7 +929,7 @@ export default {
 
 	<p>
 		The full code listing can be found
-		<a href="https://github.com/iannisdezwart/java-avl-tree-implementation/avl_tree.java">here</a>.
+		<a href="https://github.com/iannisdezwart/java-avl-tree-implementation/blob/main/AVLTree.java">here</a>.
 	</p>
 
 	<br>

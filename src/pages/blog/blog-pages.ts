@@ -37,8 +37,10 @@ import ADS_AmortisedAnalysis from './ADS/Amortised Analysis'
 import ADS_LinearDataStructures from './ADS/Linear Data Structures'
 import ADS_DynamicDataStructures from './ADS/Dynamic Data Structures'
 import ADS_Heaps from './ADS/Heaps'
+import ADS_AVLTrees from './ADS/AVL Trees'
 
 export const blogPages: BlogPage[] = [
+	ADS_AVLTrees,
 	ADS_Heaps,
 	ADS_DynamicDataStructures,
 	ADS_LinearDataStructures,

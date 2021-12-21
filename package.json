@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@iannisz/date-time-formatter": "^0.0.5",
+    "page-compiler": "^0.1.7"
+  }
+}

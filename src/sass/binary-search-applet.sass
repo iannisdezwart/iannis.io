@@ -1,0 +1,92 @@
+@import 'global-variables.sass'
+
+#binary-search-applet
+	display: flex
+	flex-direction: column
+	align-items: center
+	justify-content: center
+
+	margin: 4rem 0
+
+	.controls
+		display: flex
+		align-items: center
+		justify-content: center
+		margin-bottom: 1rem
+
+		button
+			border: none
+			outline: none
+
+			font-size: 1em
+			border-radius: 5px
+			padding: .4em .7em
+
+			background-color: #e5e5e5
+			color: #555
+			font-weight: bold
+			cursor: pointer
+
+		input[type="number"]
+			outline: none
+			border: none
+
+			width: 40px
+			font-size: 16px
+			padding: .4em
+			border-radius: 5px
+
+			margin: 0 1em
+
+			background-color: #e5e5e5
+
+	.array
+		display: flex
+		margin-bottom: 3rem
+
+		.array-element
+			position: relative
+
+			display: flex
+			align-items: center
+			justify-content: center
+
+			width: 40px
+			height: 40px
+			margin: 5px
+			border-radius: 5px
+
+			font-size: 24px
+
+			background-color: #ccc
+
+			&.active
+				background-color: $orange
+
+			&::after
+				position: absolute
+				top: calc(100% + 4px)
+				text-align: center
+				left: 50%
+				transform: translateX(-50%)
+				font-size: 16px
+
+			&.left::after
+				content: "⬆️\00000aleft️"
+
+			&.right::after
+				content: "⬆️\00000aright"
+
+			&.final::after
+				content: "⬆️\00000afinal"
+
+	.message
+		font-size: 16px
+
+@media (max-width: 375px)
+	#binary-search-applet .array
+		.array-element
+			width: 32px
+			height: 32px
+			margin: 3px
+			font-size: 20px

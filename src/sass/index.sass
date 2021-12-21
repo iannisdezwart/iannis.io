@@ -1,0 +1,768 @@
+@use 'sass:math'
+@import 'global-variables.sass'
+
+@mixin flex-centre
+	display: flex
+	align-items: center
+	justify-content: center
+
+:root
+	--vh: 1vh
+
+.preload *
+	transition: none !important
+
+html
+	scroll-behavior: smooth
+	font-family: 'Poppins', sans-serif
+	color: $light-text
+
+body
+	margin: 0
+	padding: 0
+
+	overflow: overlay
+
+a
+	color: $dark-pink
+	text-shadow: none !important
+	text-decoration: none
+	font-weight: 700
+	background-color: $light-text
+	padding: 0 .20em
+	margin: 0 .05em
+	transition: color 300ms ease
+
+	&:hover
+		color: $light-pink
+
+.slant
+	font-weight: 700
+	font-style: italic
+
+span.big-emoji
+	font-size: 1.5em
+	text-shadow: .2rem .2rem .2rem rgba(0, 0, 0, 0.3)
+
+span.big-svg svg
+	width: 1.5em
+	height: 1.5em
+	margin: .6em 0
+	vertical-align: middle
+	filter: drop-shadow(.2rem .2rem .2rem rgba(0, 0, 0, 0.3))
+
+.button
+	display: inline-block
+	border: none
+	outline: none
+	cursor: pointer
+	background-color: $light-text
+	color: $dark-pink
+	font-size: 1.2rem
+	padding: .4em .7em
+	border-radius: 2em
+	font-weight: 600
+	transition: color 300ms ease
+	box-shadow: 2px 2px 6px rgb(0 0 0 / 15%)
+
+	&:hover
+		color: $light-pink
+
+dfn
+	position: relative
+	font-weight: inherit
+	font-style: inherit
+
+	&[meaning]::before
+		content: attr(meaning)
+
+		position: absolute
+		left: 50%
+		top: 100%
+		width: 200px
+		transform: translateX(-50%)
+
+		text-align: center
+		background-color: $dark-text
+		color: $light-text
+		padding: .5rem
+		border-radius: .5rem
+
+		pointer-events: none
+
+		visibility: hidden
+		opacity: 0
+		transition: visibility 300ms ease, opacity 300ms ease
+
+	&[meaning]:hover::before
+		visibility: visible
+		opacity: 1
+
+	&::after
+		content: ""
+		position: absolute
+		bottom: 0.125em
+		left: 0
+		width: 100%
+		border-bottom: 1px dashed
+
+.code-block-container
+	width: 100%
+	border-radius: .75em
+	overflow: hidden
+	margin: 2rem 0
+
+.code-block
+	width: 100%
+	overflow: auto
+	background-color: $very-dark-text
+
+code
+	display: grid
+	grid-template-columns: fit-content(0) auto
+
+	font-family: 'Anonymous Pro', monospace
+	color: $dimmed-light-text
+
+	padding: 1rem
+	padding-left: 0
+	margin: 0
+
+	&.inline
+		display: inline-block
+		width: unset
+		padding: .25em .5em
+		margin: 0
+		border-radius: .5em
+		background-color: $very-dark-text
+
+	pre
+		display: inline
+		tab-size: 4
+		margin: 0
+
+		font-family: 'Anonymous Pro', monospace
+		white-space: pre-wrap
+
+	.line-number
+		padding-left: 1rem
+		padding-right: 2ch
+		color: rgb(128, 130, 136)
+		background-color: $very-dark-text
+		user-select: none
+		position: sticky
+		left: 0
+
+	.line-content
+		width: 80ch
+
+	.string
+		color: rgb(152, 195, 121)
+
+	.function
+		font-weight: 700
+		color: rgb(97, 175, 239)
+
+	.namespace, .class
+		color: rgb(229, 192, 123)
+
+	.parameter
+		color: rgb(224, 108, 117)
+		font-style: italic
+
+	.identifier
+		color: rgb(224, 108, 117)
+
+	.keyword, .operator
+		color: rgb(198, 120, 221)
+
+	.comment
+		color: rgb(98, 104, 116)
+
+	.number
+		color: rgb(211, 148, 101)
+
+	.constructor
+		font-weight: 700
+		color: rgb(229, 192, 123)
+
+	::selection
+		background-color: rgba(255, 255, 255, 0.2)
+
+html.not-mobile
+	::-webkit-scrollbar
+		width: 8px
+		height: 8px
+
+	::-webkit-scrollbar-track
+		background-color: transparent
+
+	::-webkit-scrollbar-thumb
+		border-radius: 5px
+		background: linear-gradient(180deg, rgba(255, 200, 200, 0.4) 0%, rgba(255, 200, 180, 0.4) 100%)
+
+	body::-webkit-scrollbar-track
+		margin-top: $navbar-height-excl-colour-strip
+
+	.code-block::-webkit-scrollbar-track
+		margin: .5em
+
+#scrollbar
+	position: fixed
+	left: 0
+	bottom: 0
+	width: 0
+	height: $navbar-colour-strip-height
+	overflow: hidden
+
+#scrollbar-inner
+	height: $navbar-colour-strip-height
+	width: 100vw
+	background: $gradient-90deg
+
+
+#top-colour-strip
+	position: fixed
+	z-index: 999
+	top: 0
+	left: 0
+
+	width: 100%
+	height: $navbar-colour-strip-height
+
+	background: $gradient-90deg
+
+#navbar
+	position: fixed
+	z-index: 999
+	top: $navbar-colour-strip-height
+	left: 0
+
+	box-sizing: border-box
+	width: 100%
+	height: $navbar-height
+	padding: 0 $navbar-horizontal-padding
+	margin: 0
+
+	display: flex
+	justify-content: space-between
+	background-color: $navbar-background-colour
+
+	box-shadow: 0 5px 7px rgba(0, 0, 0, 0.05)
+
+	.left, .middle, .right
+		display: flex
+
+.navbar-item
+	height: $navbar-height
+
+	@include flex-centre
+
+	& > *
+		padding: 0 1em
+		margin: 0
+		height: 100%
+
+		@include flex-centre
+
+		color: $dark-pink
+		background-color: transparent
+		font-size: 1.5em
+		text-decoration: none
+		font-weight: 700
+
+	&:hover
+		color: $light-pink
+
+#logo img
+	margin-right: 1rem
+	width: $navbar-height * 0.75
+	height: $navbar-height * 0.75
+	border-radius: 50%
+	border: 5px solid $dark-pink
+	box-sizing: border-box
+	transition: border-color 300ms ease
+
+#logo:hover img
+	border-color: $light-pink
+
+#logo-last-name
+	color: inherit
+
+#navbar .right
+	cursor: pointer
+	display: none
+
+#hamburger
+	height: math.div($navbar-height, 2)
+	width: math.div($navbar-height, 2)
+
+@media (max-width: 900px)
+	#navbar .right
+		display: flex
+
+	#navbar .middle
+		position: absolute
+		top: $navbar-height
+		left: -100%
+		height: $page-height
+		width: 100%
+
+		@include flex-centre
+		flex-direction: column
+
+		background-color: $navbar-background-colour
+		transition: left 300ms ease
+
+		&::after
+			content: ""
+			position: absolute
+			bottom: 0
+			left: 0
+
+			width: 100%
+			height: $navbar-colour-strip-height
+			background: $gradient-90deg
+
+	html.mobile-navbar-opened #navbar .middle
+		left: 0
+
+@media (max-width: 500px)
+	#logo-last-name
+		display: none
+
+@media (max-width: 350px)
+	#navbar
+		padding: 0
+
+	#navbar .left .navbar-item > *
+		padding-left: 1rem
+		padding-right: 0
+
+	#navbar .right .navbar-item > *
+		padding-left: 0
+		padding-right: 1rem
+
+:target::before
+	content: ''
+	display: block
+	height: $navbar-height-excl-colour-strip + 16px
+	margin-top: -1 * $navbar-height-excl-colour-strip - 16px
+	visibility: hidden
+
+#page
+	position: relative
+	margin-top: $navbar-height-excl-colour-strip
+	height: $page-height
+
+	background-position: center
+	background-attachment: fixed
+	background-size: cover
+
+#background
+	position: fixed
+	z-index: -1
+	top: 0
+	left: 0
+
+	width: 100%
+	height: 100%
+
+#landing
+	width: 100%
+
+	@include flex-centre
+	flex-direction: column
+
+#landing-foreground
+	max-width: 80vw
+	padding: 3em 0
+
+	@include flex-centre
+
+#logo picture
+	display: flex
+
+#profile-picture
+	width: 40vh
+	height: 40vh
+	border: 10px solid $light-text
+	border-radius: 50%
+	box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.15)
+
+#landing-text
+	padding-left: 2em
+	text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1)
+
+	h1
+		margin-top: 0
+		font-size: 4em
+
+	h2
+		font-size: 2em
+		margin: 0
+
+	p
+		font-size: 1.5em
+
+@media (max-width: 1100px)
+	#landing-foreground
+		flex-direction: column
+
+	#profile-picture
+		width: 30vh
+		height: 30vh
+
+	#landing-text
+		margin-top: 3rem
+		padding-left: 0
+		text-align: center
+
+		h1
+			font-size: 3em
+
+		h2
+			font-size: 1.5em
+
+		p
+			font-size: 1.2rem
+
+.inner-page
+	position: absolute
+	left: 0
+	top: 0
+
+	width: 100%
+	min-height: $page-height
+
+	@include flex-centre
+	flex-direction: column
+
+.inner-page
+	& > h1
+		text-align: center
+		font-size: 6em
+		text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1)
+
+	& > h2
+		text-align: center
+		font-size: 2em
+		text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1)
+
+@media (max-width: 500px)
+	.inner-page
+		& > h1
+			font-size: 4em
+
+		& > h2
+			font-size: 1.5em
+
+.cards
+	box-sizing: border-box
+	width: $cards-max-width-row-of-3
+
+	display: grid
+	grid-template-columns: 1fr 1fr 1fr
+	grid-gap: 2rem
+	margin-bottom: 4rem
+
+.card
+	position: relative
+	box-shadow: 0 0 2rem 0 rgba(0, 0, 0, 0.15)
+	border-radius: 1rem
+	z-index: 1
+	backdrop-filter: blur(10px) drop-shadow(4px 4px 10px rgba(255, 128, 128, 0.7))
+	overflow: hidden
+
+	display: flex
+	flex-direction: column
+	align-items: center
+
+	&::before
+		content: ""
+		position: absolute
+		z-index: -1
+		top: -50px
+		left: -50px
+		right: -50px
+		bottom: -50px
+		filter: blur(20px)
+
+.card-image-button
+	margin: 0
+	padding: 0
+	width: 100%
+	background: none
+	position: relative
+
+.card-chapter
+	color: $dark-pink
+	position: absolute
+	background: $light-text
+	top: .5em
+	padding: .25em .5em
+	right: .5em
+	border-radius: .5em
+
+.card-work-in-progress
+	color: $dark-pink
+	position: absolute
+	background: $light-text
+	left: .5em
+	padding: .25em .5em
+	bottom: .5em
+	border-radius: .5em
+
+.card-text
+	@include flex-centre
+	flex-direction: column
+
+	padding: 1rem 2rem
+
+.card
+	h1
+		font-size: 1.5em
+		margin-top: 0
+		margin-bottom: 1rem
+		text-align: center
+
+	h1, p
+		text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1)
+
+.card-date
+	font-style: italic
+	font-weight: 600
+	margin: 0
+
+.card-image
+	width: 100%
+	height: $card-image-height
+
+img.card-image
+	object-fit: cover
+
+.card a.button
+	margin: 1rem
+
+.card-read-button-container
+	height: 100%
+	display: flex
+	flex-direction: column
+	justify-content: flex-end
+
+@media (max-width: 1100px)
+	.cards
+		width: $cards-max-width-row-of-2
+		grid-template-columns: 1fr 1fr
+
+@media (max-width: 700px)
+	.cards
+		width: $cards-max-width-row-of-1
+		grid-template-columns: 1fr
+
+#blog-page
+	.title
+		font-size: 4rem
+		text-shadow: 3px 3px 3px rgb(0 0 0 / 10%)
+		text-align: center
+		max-width: 90%
+		margin-bottom: 0
+
+	.publish-date
+		font-weight: 400
+		font-style: italic
+		text-shadow: 3px 3px 3px rgb(0 0 0 / 10%)
+
+@media (max-width: 600px)
+	#blog-page h1
+		font-size: 3rem
+
+@media (max-width: 350px)
+	#blog-page h1
+		font-size: 2.5rem
+
+ul.blog-page-tags
+	padding: 0
+	display: flex
+	list-style: none
+
+	li
+		padding: .5rem 1rem
+		margin: 0 .5rem
+		margin-bottom: 2rem
+		border-radius: .5rem
+		background-color: $navbar-background-colour
+		box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1)
+
+		span
+			background: $gradient-135deg
+			background-clip: text
+			-webkit-background-clip: text
+			-webkit-text-fill-color: transparent
+			font-weight: 700
+
+.blog-page-image
+	width: min(100%, #{ $max-blog-page-image-width })
+	height: $blog-page-image-height
+	padding: 0 6rem
+	box-sizing: border-box
+
+	svg
+		width: 100%
+		height: 100%
+		box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1)
+
+@media (max-width: 900px)
+	.blog-page-image
+		padding: 0
+		height: $blog-page-image-height-mobile
+
+.blog-page-content-container
+	margin-top: 3rem
+	width: min(100%, #{ $max-blog-page-width })
+	padding: 0 6rem
+	padding-bottom: 3rem
+	box-sizing: border-box
+
+.blog-page-content
+	position: relative
+	background-color: $navbar-background-colour
+	color: $dark-text
+	padding: 3rem 6rem
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1)
+
+	&::after
+		content: ""
+		position: absolute
+		bottom: 0
+		left: 0
+		width: 100%
+		height: $navbar-colour-strip-height
+		background: $gradient-90deg
+
+@media (max-width: 900px)
+	.blog-page-content-container
+		padding: 0
+		padding-bottom: 3rem
+
+	.blog-page-content
+		padding: 3rem
+
+@media (max-width: 500px)
+	.blog-page-content
+		padding: 3rem 2rem
+
+.link
+	height: 1em
+	width: 1em
+	cursor: pointer
+
+.blog-page-content
+	h1, h2, h3, h4
+		color: $very-dark-text
+		text-shadow: none
+		text-align: left
+
+	h1
+		font-size: 2.5rem
+
+	h2
+		font-size: 2rem
+
+	h3
+		font-size: 1.5rem
+
+	h4
+		font-size: 1.25rem
+
+	p
+		color: $dark-text
+		text-shadow: none
+		text-align: justify
+
+	a
+		color: inherit
+		font-weight: inherit
+		text-decoration: underline
+		font-style: italic
+		padding: 0
+		margin: 0
+
+		&:hover
+			color: inherit
+
+	table
+		width: 100%
+		border-collapse: collapse
+
+		thead
+			background: $gradient-90deg
+			color: $light-text
+			border-style: hidden
+
+			th
+				padding: .5rem
+				text-align: left
+				font-weight: bold
+				font-style: italic
+
+		tbody
+			border-style: hidden
+
+			td
+				border: 1px solid $dimmed-light-text
+				padding: .5rem
+				text-align: left
+
+	.fullwidth-image
+		width: 100%
+		height: unset
+		max-height: 60vh
+
+	svg.latex
+		vertical-align: middle
+		fill: #333
+
+	svg.latex.fix-height
+		height: 1em
+		width: unset
+
+	svg.latex.centre
+		display: table
+		margin: 0 auto
+
+	.spoiler
+		.button
+			display: table
+			margin: 0 auto
+			text-align: center
+
+		.spoiler-content
+			display: none
+
+		.toggle
+			display: none
+
+		.toggle:checked ~ .spoiler-content
+			display: block
+
+	.quote
+		position: relative
+		font-style: italic
+		text-align: justify
+		padding: .5em 0
+		padding-left: 3em
+
+		&::before
+			content: ""
+			position: absolute
+			top: 0
+			left: 0
+
+			width: $navbar-colour-strip-height
+			height: 100%
+
+			background: $gradient-180deg
+
+#projects-title
+	margin-bottom: 0

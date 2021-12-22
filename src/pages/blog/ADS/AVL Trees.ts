@@ -624,6 +624,33 @@ export default {
 	}
 	`) }
 
+	<p>
+		<strong>Note for the attentive reader:</strong>
+		I have received a very good question about the part of the
+		above code where we decide which rotation to perform.
+		<br><br>
+		In the code above, we check in what subtree we inserted
+		the new value. We make the decision based on that information,
+		and not on which subtree is actually higher. This is not a
+		mistake, but an optimisation. It is slightly more efficient
+		to compare the node to the value we inserted than to compare
+		heights of both children.
+		<br><br>
+		The reason this works is because the newly inserted node
+		will always be in the subtree that is too large. After all,
+		the new node caused the imbalance in the first place.
+		<br><br>
+		If we get to an unbalanced node, we can now simply check in
+		what subtree we inserted the new value to get the correct
+		rotation we have to perform. If the node is in the left-right
+		subtree, we will perform a left-right rotation etc.
+		<br><br>
+		We <em>cannot</em> perform this optimisation if we want to
+		remove a node. So in the AVL removal code you will see below,
+		we will instead check which subtree is higher the
+		unoptimised way.
+	</p>
+
 	<br>
 
 	<h2 id="avl-tree-removal">
@@ -944,8 +971,8 @@ export default {
 		how our implementation of the AVL trees can be modified
 		to implement a map data structure.
 		<br><br>
-		The implementation we made data structure that implements a set
-		with ${ await importLatex('$O(\\log n)$') } operations.
+		The implementation we made is a data structure that implements
+		a set with ${ await importLatex('$O(\\log n)$') } operations.
 		In a set, we can add distinct values, remove them, and check
 		for their existence.
 		<br>

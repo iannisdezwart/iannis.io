@@ -13,7 +13,6 @@ export default {
 	description: 'Binary search trees, self-balancing trees and how an AVL tree is implemented.',
 	date: new Date('21 December 2021'),
 	keywords: [ 'ADS', 'Java' ],
-	workInProgress: true,
 	generateContent: async () => /* html */ `
 	<h1 id="introduction">
 		Introduction

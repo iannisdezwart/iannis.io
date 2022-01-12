@@ -1,4 +1,4 @@
-import { encodeDirName, inlineSVG } from 'page-compiler'
+import { inlineSVG } from 'page-compiler'
 import { cl, comm, createCodeBlockFromStr, createInlineCodeBlock, func, id, keyw, num, op, param, str } from '../../../util/html-code-syntax-highlighting'
 import { importLatex } from '../../../util/latex'
 import { BlogPage, createSpoiler, linkSymbol } from '../blog-pages'
@@ -8,6 +8,7 @@ export default {
 	imagePath: 'src/img/ADS Wallpaper.svg',
 	imageAlt: 'ADS Wallpaper',
 	title: 'Amortised Analysis',
+	url: 'ads/amortised-analysis',
 	series: 'ADS',
 	chapter: '0x01',
 	description: 'But how do we calculate and analyse Big O from code?',
@@ -35,7 +36,7 @@ export default {
 
 	<p>
 		First, let's formalise what exactly Big O is.
-		If you've read the <a href="${ `/blog/${ encodeDirName(ADS_BigO.title) }` }">previous article</a>,
+		If you've read the <a href="${ `/blog/${ ADS_BigO.url }` }">previous article</a>,
 		you should be able to have some good intuition about what Big O is already.
 	</p>
 
@@ -233,7 +234,7 @@ export default {
 
 	<p>
 		Consider the binary search algorithm you have seen in the
-		<a href="${ `/blog/${ encodeDirName(ADS_BigO.title) }#logarithmic-time-complexity` }">previous post</a>.
+		<a href="${ `/blog/${ ADS_BigO.url }#logarithmic-time-complexity` }">previous post</a>.
 		<br>
 		We can also use this algorithm recursively:
 	</p>
@@ -313,7 +314,7 @@ export default {
 		Note that if we made this function iterative,
 		the space complexity would be ${ await importLatex('$O(1)$') }.
 		An example can be found in the
-		<a href="${ `/blog/${ encodeDirName(ADS_BigO.title) }#logarithmic-time-complexity` }">previous post</a>.
+		<a href="${ `/blog/${ ADS_BigO.url }#logarithmic-time-complexity` }">previous post</a>.
 	</p>
 	`) }
 

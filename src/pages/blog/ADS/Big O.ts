@@ -7,6 +7,7 @@ export default {
 	imagePath: 'src/img/ADS Wallpaper.svg',
 	imageAlt: 'ADS Wallpaper',
 	title: 'Big O',
+	url: 'ads/big-o',
 	series: 'ADS',
 	chapter: '0x00',
 	description: 'Tutorial on space and time complexity, using Java.',

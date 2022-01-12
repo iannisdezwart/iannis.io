@@ -1,4 +1,4 @@
-import { encodeDirName, importJPG, inlineJS, inlineSVG, PageShell } from 'page-compiler'
+import { importJPG, inlineJS, inlineSVG, PageShell } from 'page-compiler'
 import { renderBody } from '../../util/page-shell'
 import { formatDate } from '@iannisz/date-time-formatter'
 
@@ -21,6 +21,7 @@ export interface BlogPage {
 	imagePath: string
 	imageAlt: string
 	title: string
+	url: string
 	series?: string
 	chapter?: string
 	workInProgress?: boolean
@@ -38,8 +39,10 @@ import ADS_LinearDataStructures from './ADS/Linear Data Structures'
 import ADS_DynamicDataStructures from './ADS/Dynamic Data Structures'
 import ADS_Heaps from './ADS/Heaps'
 import ADS_AVLTrees from './ADS/AVL Trees'
+import CodeStyle from './Misc/Code Style'
 
 export const blogPages: BlogPage[] = [
+	CodeStyle,
 	ADS_AVLTrees,
 	ADS_Heaps,
 	ADS_DynamicDataStructures,
@@ -92,5 +95,5 @@ export default (pageShell: PageShell) => Promise.all(blogPages.map(async blogPag
 		description: blogPage.description,
 		keywords: blogPage.keywords
 	}),
-	path: `/blog/${ encodeDirName(blogPage.title) }/index.html`
+	path: `/blog/${ blogPage.url }/index.html`
 })))

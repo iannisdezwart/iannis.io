@@ -5,6 +5,7 @@ export default {
 	imagePath: 'src/img/Assembly Wallpaper.svg',
 	imageAlt: 'Assembly Wallpaper',
 	title: 'Hello, Assembly!',
+	url: 'hello-assembly',
 	description: 'Hello world example with thorough explanation in GAS Assembly.',
 	keywords: [ 'Assembly' ],
 	date: new Date('19 September 2021'),

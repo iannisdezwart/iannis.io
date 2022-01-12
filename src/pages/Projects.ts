@@ -1,4 +1,4 @@
-import { encodeDirName, importJPG, inlineSVG, PageShell } from 'page-compiler'
+import { importJPG, inlineSVG, PageShell } from 'page-compiler'
 import { renderBody } from '../util/page-shell'
 import { projectPages } from './projects/project-pages'
 
@@ -31,7 +31,7 @@ export default async (pageShell: PageShell) => ({
 				`
 				else return /* html */ `
 				<div class="card">
-					<a href="/projects/${ encodeDirName(projectPage.title) }/" class="card-image-button">
+					<a href="/projects/${ projectPage.url }/" class="card-image-button">
 						${
 							projectPage.imagePath.endsWith('.svg')
 								? inlineSVG(projectPage.imagePath, { alt: projectPage.imageAlt, classes: [ 'card-image' ] })
@@ -45,7 +45,7 @@ export default async (pageShell: PageShell) => ({
 						</p>
 					</div>
 					<div class="card-read-button-container">
-						<a class="button card-read-button" href="/blog/${ encodeDirName(projectPage.title) }/">Read</a>
+						<a class="button card-read-button" href="/blog/${ projectPage.url }/">Read</a>
 					</div>
 				</div>
 				`

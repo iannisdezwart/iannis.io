@@ -1,13 +1,13 @@
-import { encodeDirName, inlineSVG } from 'page-compiler'
-import { cl, comm, constr, createCodeBlockFromStr, createInlineCodeBlock, func, id, keyw, num, op, param } from '../../../util/html-code-syntax-highlighting'
+import { inlineSVG } from 'page-compiler'
+import { cl, comm, constr, createCodeBlockFromStr, func, id, keyw, num, op, param } from '../../../util/html-code-syntax-highlighting'
 import { importLatex } from '../../../util/latex'
-import { BlogPage, createSpoiler, linkSymbol } from '../blog-pages'
-import ADS_DynamicDataStructures from './Dynamic Data Structures'
+import { BlogPage, linkSymbol } from '../blog-pages'
 
 export default {
 	imagePath: 'src/img/ADS Wallpaper.svg',
 	imageAlt: 'ADS Wallpaper',
 	title: 'AVL Trees',
+	url: 'ads/avl-trees',
 	series: 'ADS',
 	chapter: '0x05',
 	description: 'Binary search trees, self-balancing trees and how an AVL tree is implemented.',

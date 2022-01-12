@@ -7,6 +7,7 @@ export default {
 	imagePath: 'src/img/ADS Wallpaper.svg',
 	imageAlt: 'ADS Wallpaper',
 	title: 'Arrays & Linked Lists',
+	url: 'ads/arrays-linked-lists',
 	series: 'ADS',
 	chapter: '0x02',
 	description: 'How they work, how they are implemented, and analysed.',

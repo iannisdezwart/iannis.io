@@ -1,4 +1,4 @@
-import { encodeDirName, inlineJS, inlineSASS, inlineSVG } from 'page-compiler'
+import { inlineJS, inlineSASS, inlineSVG } from 'page-compiler'
 import { cl, comm, createCodeBlockFromStr, createInlineCodeBlock, func, id, keyw, num, op, param } from '../../../util/html-code-syntax-highlighting'
 import { importLatex } from '../../../util/latex'
 import { BlogPage, linkSymbol } from '../blog-pages'
@@ -8,6 +8,7 @@ export default {
 	imagePath: 'src/img/ADS Wallpaper.svg',
 	imageAlt: 'ADS Wallpaper',
 	title: 'Dynamic Data Structures',
+	url: 'ads/dynamic-data-structures',
 	series: 'ADS',
 	chapter: '0x03',
 	description: 'Dynamic arrays and how they are used in other data structures.',
@@ -341,7 +342,7 @@ export default {
 	</h3>
 
 	<p>
-		In the <a href="${ `/blog/${ encodeDirName(ADS_LinearDataStructures.title) }` }">previous post</a>,
+		In the <a href="${ `/blog/${ ADS_LinearDataStructures.url }` }">previous post</a>,
 		we discussed that arrays are much faster than linked lists,
 		but less flexible.
 		<br><br>

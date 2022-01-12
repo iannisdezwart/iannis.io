@@ -5,6 +5,7 @@ import blogPagesCompiler from './src/pages/blog/blog-pages'
 import mainProjectPageCompiler from './src/pages/Projects'
 import projectPagesCompiler from './src/pages/projects/project-pages'
 import contactPageCompiler from './src/pages/Contact'
+import buildRSS from './rss'
 
 const main = async () => {
 	if (process.argv.includes('--debug')) {
@@ -54,6 +55,8 @@ const main = async () => {
 		...await projectPagesCompiler(pageShell),
 		await contactPageCompiler(pageShell)
 	])
+
+	buildRSS()
 }
 
 main()

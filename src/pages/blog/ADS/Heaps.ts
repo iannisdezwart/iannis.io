@@ -1,4 +1,4 @@
-import { encodeDirName, inlineSVG } from 'page-compiler'
+import { inlineSVG } from 'page-compiler'
 import { cl, comm, constr, createCodeBlockFromStr, func, id, keyw, num, op, param } from '../../../util/html-code-syntax-highlighting'
 import { importLatex } from '../../../util/latex'
 import { BlogPage, createSpoiler, linkSymbol } from '../blog-pages'
@@ -8,6 +8,7 @@ export default {
 	imagePath: 'src/img/ADS Wallpaper.svg',
 	imageAlt: 'ADS Wallpaper',
 	title: 'Heaps & Priority Queues',
+	url: 'ads/heaps-and-priority-queues',
 	series: 'ADS',
 	chapter: '0x04',
 	description: 'Min heaps, max heaps and how they are used in the priority queue data structure.',
@@ -224,7 +225,7 @@ export default {
 		a dynamic array to represent it. This array tree is much more
 		performant than a linked tree, since we can access any node in
 		constant time and
-		<a href="${ `/blog/${ encodeDirName(ADS_DynamicDataStructures.title) }#dynamic-array-vs-linked-list` }">
+		<a href="${ `/blog/${ ADS_DynamicDataStructures.url }#dynamic-array-vs-linked-list` }">
 			dynamic arrays are much more efficient than linked lists.
 		</a>
 	</p>

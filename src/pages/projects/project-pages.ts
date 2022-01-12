@@ -1,4 +1,4 @@
-import { encodeDirName, importJPG, inlineJS, inlineSVG, PageShell } from 'page-compiler'
+import { importJPG, inlineJS, inlineSVG, PageShell } from 'page-compiler'
 import { renderBody } from '../../util/page-shell'
 
 export const linkSymbol = inlineSVG('src/img/link.svg', { alt: 'Get link to this section', classes: [ 'link' ] })
@@ -7,6 +7,7 @@ export interface ProjectPage {
 	imagePath: string
 	imageAlt?: string
 	title: string
+	url: string
 	description: string
 	keywords?: string[]
 	generateContent?: () => Promise<string>
@@ -57,5 +58,5 @@ export default (pageShell: PageShell) => Promise.all(projectPages.filter(project
 		description: projectPage.description,
 		keywords: projectPage.keywords
 	}),
-	path: `/projects/${ encodeDirName(projectPage.title) }/index.html`
+	path: `/projects/${ projectPage.url }/index.html`
 })))

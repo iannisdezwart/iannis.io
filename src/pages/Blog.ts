@@ -1,5 +1,5 @@
 import { formatDate } from '@iannisz/date-time-formatter'
-import { encodeDirName, importJPG, inlineSVG, PageShell } from 'page-compiler'
+import { importJPG, inlineSVG, PageShell } from 'page-compiler'
 import { renderBody } from '../util/page-shell'
 import { blogPages } from './blog/blog-pages'
 
@@ -10,7 +10,7 @@ export default async (pageShell: PageShell) => ({
 		<div class="cards">
 			${ (await Promise.all(blogPages.map(async blogPage => /* html */ `
 			<div class="card">
-				<a href="/blog/${ encodeDirName(blogPage.title) }/" class="card-image-button">
+				<a href="/blog/${ blogPage.url }/" class="card-image-button">
 					${
 						blogPage.imagePath.endsWith('.svg')
 							? inlineSVG(blogPage.imagePath, { alt: blogPage.imageAlt, classes: [ 'card-image' ] })
@@ -32,7 +32,7 @@ export default async (pageShell: PageShell) => ({
 					</p>
 				</div>
 				<div class="card-read-button-container">
-					<a class="button card-read-button" href="/blog/${ encodeDirName(blogPage.title) }/">Read</a>
+					<a class="button card-read-button" href="/blog/${ blogPage.url }/">Read</a>
 				</div>
 			</div>
 			`))).join('') }

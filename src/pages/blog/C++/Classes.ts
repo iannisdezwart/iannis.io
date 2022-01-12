@@ -6,6 +6,7 @@ export default {
 	imagePath: 'src/img/C++ Wallpaper.svg',
 	imageAlt: 'C++ Wallpaper',
 	title: 'Essentials: C++ classes',
+	url: 'essentials-c++-classes',
 	description: 'In-depth beginner-friendly tour of C++ classes.',
 	keywords: [ 'C++', 'OOP' ],
 	date: new Date('6 July 2021'),

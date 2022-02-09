@@ -1,6 +1,4 @@
-import { inlineSVG } from 'page-compiler'
-import { cl, comm, constr, createCodeBlockFromStr, createInlineCodeBlock, func, id, keyw, num, op, param, str } from '../../../util/html-code-syntax-highlighting'
-import { importLatex } from '../../../util/latex'
+import { cl, comm, createCodeBlockFromStr, createInlineCodeBlock, func, id, keyw, num, op, param, str } from '../../../util/html-code-syntax-highlighting'
 import { BlogPage, linkSymbol } from '../blog-pages'
 
 export default {
@@ -11,7 +9,6 @@ export default {
 	description: 'Discussion of the most popular coding styles and how to use them to write code that is readable, maintainable and scalable.',
 	date: new Date('11 January 2021'),
 	keywords: [ 'Misc', 'Code Style' ],
-	workInProgress: true,
 	generateContent: async () => /* html */ `
 	<h1 id="introduction">
 		Introduction
@@ -47,8 +44,8 @@ export default {
 		C#, Java, JavaScript, TypeScript, PHP, Go, Rust, Kotlin, Scala,
 		R, Swift and many others.
 		<br>
-		Many things in this post still apply to languages that are not
-		C-like, like Python and Ruby.
+		Many things in this post still apply to languages that don't
+		inherit their syntax from C, like Python and Ruby.
 	</p>
 
 	<br>
@@ -96,9 +93,9 @@ export default {
 
 	<p>
 		1TBS is a very popular brace style. It probably originates
-		from Java, where 1TBS is usually used.
-		1TBS puts all opening braces on the same line. Closing braces
-		are put on their own line.
+		from Java, where 1TBS is the convention.
+		In 1TBS, all opening braces are put on the same line.
+		Closing braces are put on their own line.
 	</p>
 
 	<br>
@@ -130,8 +127,8 @@ export default {
 		The creators of the C programming language, Brian Kernighan and
 		Dennis Ritchie, used this style of brace placement.
 		<br>
-		K&R is the same as 1TBS, but the opening brace for functions
-		is put on its own line.
+		K&R is similar 1TBS, but opening braces for functions are put
+		on their own lines.
 		The reason for this is that in the old days of C, the types
 		of the parameters were declared differently:
 	</p>
@@ -167,8 +164,8 @@ export default {
 	<p>
 		It is very easy to misread the local variable declaration as
 		a parameter, because it comes right after the parameter list.
-		K&R style fixes this, making it very clear where the function
-		body starts.
+		The K&R style fixes this, making it very clear where the
+		function body starts.
 		<br><br>
 		Even though parameters are rarely declared like this anymore in
 		C, many people stuck to K&R style because they found it easier
@@ -204,57 +201,70 @@ export default {
 	`) }
 
 	<p>
-		The Allman style is similar to K&R, but it puts (almost)
-		<em>all</em> opening braces on their own line.
+		The Allman style goes even further than K&R.
+		<em>All</em> opening braces are put on their own lines.
 		<br>
-		I might be biased because I personally prefer the Allman style,
-		but let me explain why it is so good:
+		I personally find this style of brace placement the most
+		readable. Of course, I might be very biased, but let me explain
+		why it is so good:
 		<br><br>
 		The Allman style really shifts your perspective of writing
 		clean code. Sticking to any proper set of rules for indentation
-		will of course help, but I found that the Allman style gives
-		you the best balance between freedom of writing code and
-		readability of the final product.
+		will of course help, but I found that the Allman style provides
+		the best balance between freedom of writing code and readability
+		of the final product.
 		<br><br>
 		The Allman style gives you an extra dimension: a feel for space
-		in your code. Since putting all braces on their own lines causes
-		the lines of code to be further apart from each other, you start
-		to intuitively group your code into logical blocks that fit
+		in your code. Since putting all braces on their own lines leads
+		to the lines of code being further apart from each other, it
+		becomes very natural to leave lines blank every now and then,
+		intuitively grouping your code into logical blocks that fit
 		together:
 	</p>
 
 	${ createCodeBlockFromStr(`
-	${ keyw('if') } (${ id('free_block') }${ op('->') }${ id('size') } ${ op('-') } ${ id('size') } ${ op('>=') } ${ keyw('sizeof') }(${ cl('HeapBlockHeader') }))
+	${ comm('/**') }
+	${ comm(' * @brief Checks if a free memory block can be merged with') }
+	${ comm(' * its neigbouring blocks.') }
+	${ comm(' * If this is possible, the blocks are merged.') }
+	${ comm(' *') }
+	${ comm(' * @param block The free block to check.') }
+	${ comm(' */') }
+	${ keyw('void') }
+	${ func('maybe_merge_free_blocks') }(${ cl('FreeHeapBlockHeader') } ${ op('*') }${ param('block') })
 	{
-		${ comm('// The block is large enough to also put the header.') }
-		${ comm('// We will split the free block into two parts.') }
-		${ comm('// Get a pointer to the start of the new header.') }
+		${ keyw('bool') } ${ id('prev_exists') } ${ op('=') } ${ param('block') }${ op('->') }${ id('prev_block') } ${ op('!=') } ${ num('nullptr') };
+		${ keyw('bool') } ${ id('next_exists') } ${ op('=') } ${ param('block') }${ op('->') }${ func('next_block') }() ${ op('!=') } ${ id('heap_end') };
 
-		${ cl('HeapBlockHeader') } ${ op('*') }${ id('new_block') } ${ op('=') } (${ cl('HeapBlockHeader') } ${ op('*') })
-			((${ cl('u8') } ${ op('*') }) ${ id('free_block') }${ op('->') }${ func('get_end_ptr') }()
-			${ op('-') } ${ id('size') } ${ op('-') } ${ keyw('sizeof') }(${ cl('HeapBlockHeader') }));
+		${ comm('// If both the previous and next blocks are free,') }
+		${ comm('// merge them with the current block.') }
 
-		${ comm('// Set the size of the new header and mark it as allocated.') }
-		${ comm('// Also link it to the previous block.') }
+		${ keyw('if') } (${ id('prev_exists') } ${ op('&&') } ${ param('block') }${ op('->') }${ id('prev_block') }${ op('->') }${ func('is_free') }()
+			${ op('&&') } ${ id('next_exists') } ${ op('&&') } ${ param('block') }${ op('->') }${ func('next_block') }()${ op('->') }${ func('is_free') }())
+		{
+			${ func('merge_three_free_blocks') }(
+				(${ cl('FreeHeapBlockHeader') } ${ op('*') }) ${ param('block') }${ op('->') }${ id('prev_block') }, ${ param('block') },
+				(${ cl('FreeHeapBlockHeader') } ${ op('*') }) ${ param('block') }${ op('->') }${ func('next_block') }());
+		}
 
-		${ id('new_block') }${ op('->') }${ id('size') } ${ op('=') } ${ id('size') };
-		${ id('new_block') }${ op('->') }${ func('set_allocated') }();
-		${ id('new_block') }${ op('->') }${ id('prev_block') } ${ op('=') } ${ id('free_block') };
+		${ comm('// If only the previous block is free, merge it with the current block.') }
 
-		${ comm('// Update the size of the free block.') }
+		${ keyw('else') } ${ keyw('if') } (${ id('prev_exists') } ${ op('&&') } ${ param('block') }${ op('->') }${ id('prev_block') }${ op('->') }${ func('is_free') }())
+		{
+			${ func('merge_two_free_blocks') }(
+				(${ cl('FreeHeapBlockHeader') } ${ op('*') }) ${ param('block') }${ op('->') }${ id('prev_block') }, ${ param('block') });
+		}
 
-		${ id('free_block') }${ op('->') }${ id('size') } ${ op('=') } ${ id('free_block') }${ op('->') }${ id('size') }
-			${ op('-') } ${ keyw('sizeof') }(${ cl('HeapBlockHeader') }) ${ op('-') } ${ id('size') };
+		${ comm('// If only the next block is free, merge it with the current block.') }
 
-		${ comm('// Make the next block point back to the new block.') }
+		${ keyw('else') } ${ keyw('if') } (${ param('next_exists') } ${ op('&&') } ${ param('block') }${ op('->') }${ func('next_block') }()${ op('->') }${ func('is_free') }())
+		{
+			${ func('merge_two_free_blocks') }(
+				${ param('block') }, (${ cl('FreeHeapBlockHeader') } ${ op('*') }) ${ param('block') }${ op('->') }${ func('next_block') }());
+		}
 
-		${ cl('HeapBlockHeader') } ${ op('*') }${ id('next_block') } ${ op('=') } (${ cl('HeapBlockHeader') } ${ op('*') })
-			${ id('new_block') }${ op('->') }${ func('get_end_ptr') }();
-		${ id('next_block') }${ op('->') }${ id('prev_block') } ${ op('=') } ${ id('new_block') };
-
-		${ comm('// Return a pointer to the start of the new inner block.') }
-
-		${ keyw('return') } ${ id('new_block') }${ op('->') }${ func('get_start_ptr') }();
+		${ comm('// The neigbouring blocks are both allocated.') }
+		${ comm('// We cannot merge anything, so we return.') }
 	}
 	`) }
 
@@ -263,6 +273,10 @@ export default {
 		is a key part of that. When I write code that other people will
 		have to read as well, I want to make sure that the code does
 		not scream at the reader and is self-explanatory.
+		<br><br>
+		In the above snippet, many lines are too long and are split
+		across multiple lines. You can see that these lines are still
+		very readable using the Allman style.
 		<br><br>
 		When you start grouping small chunks of code into logical
 		blocks, you start realising that each block does something
@@ -288,13 +302,14 @@ export default {
 		have a function with parts in it that don't fit nicely on the
 		screen anymore.
 		<br>
-		If you find it important that your code stays readable, it
-		might take you some time to figure out how to break it up
-		nicely, while still keeping it readable.
+		Sometimes, it just makes more sense to have a long line of
+		code, rather than breaking it up in shorter lines and losing
+		the context of what the code does.
 		<br><br>
-		The Allman code style makes it very easy to break up your long
-		code into smaller parts, due to the fact that all opening
-		braces are on their own line.
+		As you have seen in the previous section, the Allman style
+		handles these situations really well, due to the fact that
+		all braces are on their own lines. This allows the reader
+		(and writer) of the code to easily see where code blocks start.
 		<br><br>
 		Let's look at the following long code:
 	</p>
@@ -334,7 +349,8 @@ export default {
 		makes it very hard to see where the function and if-statement
 		bodies begin.
 		<br><br>
-		Let's compare this with the Allman style:
+		Let's convert this code to the Allman style and see what
+		happens:
 	</p>
 
 	${ createCodeBlockFromStr(`
@@ -359,10 +375,10 @@ export default {
 		The code still looks horrible, but it already a bit easier to
 		read because of the extra whitespace.
 		<br><br>
-		To fix problems like this in the Allman style, you can simply
-		press enter and tab, and your code will magically be readable
-		again. As an added bonus, many text editors will automatically
-		insert a tab after you press enter.
+		To fix problems like this in the Allman style, we will insert
+		more whitespace. We will simply continue the code on a new
+		line, and indent the code by one tab. This will make the code
+		look much more readable.
 	</p>
 
 	${ createCodeBlockFromStr(`
@@ -439,10 +455,11 @@ export default {
 		the if-statement body another time, but I dislike this idea
 		because it still looks messy. It also makes the code look like
 		it is two levels deep, but it is actually only one level deep.
-		Another way to fix this in the 1TBS style is to use an extra
-		level of indentation in the check. This distinguishes the check
-		from the body, a bit better, but I think the Allman style just
-		looks better, and it is more intuitive to write.
+		Another way to fix this in the 1TBS style is to use two levels
+		of indentation in the check, and one for the body.
+		This distinguishes the check from the body a bit better,
+		but I think the Allman style just looks better,
+		and it is more intuitive to write.
 	</p>
 
 	<br>
@@ -456,17 +473,19 @@ export default {
 		Indentation can be accomplished with tabs or spaces in most
 		programming languages. You could even mix them up, but I don't
 		think that's a good idea. (Though indentation and alignment
-		are seperate things. You should align your code using spaces.)
+		are seperate things. If you're using tabs for indentation,
+		you should still align your code using spaces.)
 		<br><br>
 		I personally prefer using tabs, because they are easier to
 		delete and replace, since they are only one character long.
 		<br><br>
 		Tabs allow you to set your own indentation size,
 		while allowing other people to use their preferred indentation
-		size. For some people, me included, it can be annoying to work
+		size. For some people, including me, it can be annoying to work
 		on a project which uses spaces with a different indentation
 		size than my own. On top of that, visually impaired people
-		might not even be able to work on code that does not use tabs.
+		might not even be able to work on code that does not use tabs,
+		because they often have to use a huge font size.
 		<br>
 		They are forced to converting the spaces to tabs, and then
 		converting the tabs back to spaces after editing the code.
@@ -474,8 +493,7 @@ export default {
 		to use tabs.
 		<br><br>
 		The size of indentation is really up to you. I personally
-		prefer 8 width tabs, but I come from a 2 character tab
-		size background.
+		prefer 8 width tabs, but I had been using 2 character before.
 		<br>
 		Some people heavily advocate using 8 width tabs:
 	</p>
@@ -496,7 +514,7 @@ export default {
 		4 width tabs are a good compromise between readability and
 		real estate, and are the default for most editors.
 		The code snippets on my website are all using 4 width tabs
-		for this reason.
+		for these reasons.
 	</p>
 
 	<br>
@@ -539,10 +557,37 @@ export default {
 		A cool side-effect of enforcing this rule in languages like C,
 		where functions can only be declared on the first level of
 		indentation, is that function declarations can be matched with
-		the regex ${ createInlineCodeBlock('^functionName(') }.
+		the regex ${ createInlineCodeBlock('^functionName\\(') }.
 		This allows you to easily find the function declaration
 		by searching for the function name, but excluding all the
 		calls to the function.
+		<br><br>
+		I'm not telling you that you must use this rule from now on
+		of course, but putting return types on their own lines might
+		improve readability for functions with long return types,
+		so feel free to try it out.
+	</p>
+
+	<br>
+
+	<h2 id="final-thoughts">
+		Final Thoughts
+	</h2>
+
+	<p>
+		In the end, there is of course no objectively best style
+		for indentation. You should try to find a style that works
+		for you. I hope this blog post will make you more aware of
+		the different styles of indentation and tools to make your
+		code look more readable. After all, readable code is much
+		nicer to work with than code that is hard to read.
+		<br><br>
+		Hopefully, you will write all your code using the Allman style
+		from now on, because it's simply the best style.
+		(No, I'm just kidding.)
+		<br><br>
+		If you have any comments or suggestions, feel free to
+		<a href="/contact">contact me</a>.
 	</p>
 	`
 } as BlogPage

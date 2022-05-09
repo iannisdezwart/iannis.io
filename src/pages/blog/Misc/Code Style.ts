@@ -7,7 +7,7 @@ export default {
 	title: 'The Ultimate Code Style',
 	url: 'the-ultimate-code-style',
 	description: 'Discussion of the most popular coding styles and how to use them to write code that is readable, maintainable and scalable.',
-	date: new Date('11 January 2021'),
+	date: new Date('11 January 2022'),
 	keywords: [ 'Misc', 'Code Style' ],
 	generateContent: async () => /* html */ `
 	<h1 id="introduction">

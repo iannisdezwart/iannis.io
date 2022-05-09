@@ -14,10 +14,12 @@ export interface ProjectPage {
 	externalUrl?: string
 }
 
-import WebsiteTradeWithUs from './Trade With Us/Website'
+import WebsiteYaronAbulafia from './Yaron Abulafia/Website'
+import WebsiteOrlyWiersma from './Orly Wiersma/Website'
 
 export const projectPages: ProjectPage[] = [
-	WebsiteTradeWithUs
+	WebsiteOrlyWiersma,
+	WebsiteYaronAbulafia
 ]
 
 export default (pageShell: PageShell) => Promise.all(projectPages.filter(projectPage => projectPage.externalUrl == null).map(async projectPage => ({

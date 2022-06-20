@@ -16,8 +16,10 @@ export interface ProjectPage {
 
 import WebsiteYaronAbulafia from './Yaron Abulafia/Website'
 import WebsiteOrlyWiersma from './Orly Wiersma/Website'
+import WebsiteAmirKatzin from './Amir Katzin/Website'
 
 export const projectPages: ProjectPage[] = [
+	WebsiteAmirKatzin,
 	WebsiteOrlyWiersma,
 	WebsiteYaronAbulafia
 ]

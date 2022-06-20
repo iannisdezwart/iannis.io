@@ -21,6 +21,11 @@ export default async (pageShell: PageShell) => ({
 						${ inlineSVG('src/img/github-logo.svg') }
 					</span>
 					<a href="https://github.com/iannisdezwart">GitHub Profile</a>
+					<br>
+					<span class="big-svg">
+						${ inlineSVG('src/img/linkedin-logo.svg') }
+					</span>
+					<a href="https://www.linkedin.com/in/iannisdezwart/">LinkedIn Profile</a>
 				</p>
 			</div>
 		</div>

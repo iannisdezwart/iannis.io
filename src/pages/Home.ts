@@ -2,7 +2,7 @@ import { importJPG, PageShell } from 'page-compiler'
 import { renderBody } from '../util/page-shell'
 
 export default async (pageShell: PageShell) => ({
-	html: pageShell.render('👋 Iannis de Zwart', await renderBody(/* html */ `
+	html: await pageShell.render('👋 Iannis de Zwart', await renderBody(/* html */ `
 	<div id="landing" class="inner-page">
 		<div id="landing-foreground">
 			${ await importJPG('src/img/face.png', { alt: 'Profile Picture', heightRatio: 0.4, id: 'profile-picture' }) }

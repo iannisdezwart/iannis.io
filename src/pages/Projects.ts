@@ -3,7 +3,7 @@ import { renderBody } from '../util/page-shell'
 import { projectPages } from './projects/project-pages'
 
 export default async (pageShell: PageShell) => ({
-	html: pageShell.render('🚀 Projects | Iannis de Zwart', await renderBody(/* html */ `
+	html: await pageShell.render('🚀 Projects | Iannis de Zwart', await renderBody(/* html */ `
 	<div class="inner-page">
 		<h1 id="projects-title">Projects</h1>
 		<h2>Stuff I've been working on</h2>

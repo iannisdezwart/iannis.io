@@ -4,7 +4,7 @@ import { renderBody } from '../util/page-shell'
 import { blogPages } from './blog/blog-pages'
 
 export default async (pageShell: PageShell) => ({
-	html: pageShell.render('📒 Blog | Iannis de Zwart', await renderBody(/* html */ `
+	html: await pageShell.render('📒 Blog | Iannis de Zwart', await renderBody(/* html */ `
 	<div class="inner-page">
 		<h1>Blog</h1>
 		<div class="cards">

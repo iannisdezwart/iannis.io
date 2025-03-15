@@ -48,12 +48,12 @@ const main = async () => {
 	}, pageShell)
 
 	compilePages([
-		await homePageCompiler(pageShell),
-		await mainBlogPageCompiler(pageShell),
-		...await blogPagesCompiler(pageShell),
-		await mainProjectPageCompiler(pageShell),
-		...await projectPagesCompiler(pageShell),
-		await contactPageCompiler(pageShell)
+		() => homePageCompiler(pageShell),
+		() => mainBlogPageCompiler(pageShell),
+		...blogPagesCompiler(pageShell).map(x => () => x),
+		() => mainProjectPageCompiler(pageShell),
+		... projectPagesCompiler(pageShell).map(x => () => x),
+		() => contactPageCompiler(pageShell)
 	])
 
 	buildRSS()

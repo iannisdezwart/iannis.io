@@ -24,8 +24,8 @@ export const projectPages: ProjectPage[] = [
 	WebsiteYaronAbulafia
 ]
 
-export default (pageShell: PageShell) => Promise.all(projectPages.filter(projectPage => projectPage.externalUrl == null).map(async projectPage => ({
-	html: pageShell.render(`📒 ${ projectPage.title } | Iannis de Zwart`, await renderBody(/* html */ `
+export default (pageShell: PageShell) => projectPages.filter(projectPage => projectPage.externalUrl == null).map(async projectPage => ({
+	html: await pageShell.render(`📒 ${ projectPage.title } | Iannis de Zwart`, await renderBody(/* html */ `
 	<div id="blog-page" class="inner-page">
 		<h1 class="title">${ projectPage.title }</h1>
 
@@ -63,4 +63,4 @@ export default (pageShell: PageShell) => Promise.all(projectPages.filter(project
 		keywords: projectPage.keywords
 	}),
 	path: `/projects/${ projectPage.url }/index.html`
-})))
+}))

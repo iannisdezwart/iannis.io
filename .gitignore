@@ -3,4 +3,5 @@ node_modules/
 cache/
 root/
 *.js
+!src/js/mobile.js
 pages.json

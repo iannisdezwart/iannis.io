@@ -53,8 +53,8 @@ export const blogPages: BlogPage[] = [
 	essentials_CPP_classes
 ]
 
-export default (pageShell: PageShell) => Promise.all(blogPages.map(async blogPage => ({
-	html: pageShell.render(`📒 ${ blogPage.title } | Iannis de Zwart`, await renderBody(/* html */ `
+export default (pageShell: PageShell) => blogPages.map(async blogPage => ({
+	html: await pageShell.render(`📒 ${ blogPage.title } | Iannis de Zwart`, await renderBody(/* html */ `
 	<div id="blog-page" class="inner-page">
 		<h1 class="title">
 			${ blogPage.series || '' } ${ blogPage.chapter ? blogPage.chapter + ':' : '' }
@@ -96,4 +96,4 @@ export default (pageShell: PageShell) => Promise.all(blogPages.map(async blogPag
 		keywords: blogPage.keywords
 	}),
 	path: `/blog/${ blogPage.url }/index.html`
-})))
+}))
